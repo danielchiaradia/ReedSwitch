@@ -24,6 +24,7 @@ uint32_t getWifiChannel(String ssid)
 
 void setupWiFi()
 {
+  Serial.println("WiFi Setup...");
   IPAddress local_IP(192, 168, 178, 49);
   IPAddress gateway(192, 168, 178, 1);
   IPAddress subnet(255, 255, 255, 0);
@@ -41,7 +42,7 @@ void setupWiFi()
 void sendState(int start)  
 {
   HTTPClient http;
-  String state = digitalRead(REED_INPUT) ? "open" : "closed";
+  String state = digitalRead(REED_INPUT) ? "closed" : "open";
   http.begin(callback + state + "/" + ESP.getVcc() + "/" + (millis() - start));
   http.GET();
   Serial.println("Sent");
@@ -53,8 +54,8 @@ void setup()
   digitalWrite(VCC_SWITCH, LOW);
   pinMode(REED_INPUT, INPUT_PULLUP);
   long st = millis();
-
-  Serial.println("setup");
+  Serial.begin(74880);
+  
   if (WiFi.SSID() != WIFI_SSID)
   {
     setupWiFi();
@@ -67,6 +68,7 @@ void setup()
   else 
   {
     // channel changed
+    Serial.println("Could not connect to WiFi ...");
     setupWiFi();
     if (WiFi.waitForConnectResult(6000) == WL_CONNECTED)
     {
