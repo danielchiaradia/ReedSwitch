@@ -1,5 +1,5 @@
 # ReedSwitch
-Simple Door/Window contact with low quiescence current of around 5µA (according to my cheap multimeter ...). 
+Simple Door/Window contact with low quiescence current of around 5µA (according to my cheap multimeter ...). There is quite some power loss on the ESP development board caused by the regulator, serial converter and other components. However, it will only be powered for a short amount time, so it's not worth going the hard naked ESP way here.
 
 # BOM
 - Wemos D1 Mini or any other ESP development board
