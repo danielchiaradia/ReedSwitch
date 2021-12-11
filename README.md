@@ -1,9 +1,10 @@
 # ReedSwitch
-Simple Door/Window contact with low quiescence current of around 5µA. 
-BOM:
+Simple Door/Window contact with low quiescence current of around 5µA (according to my cheap multimeter ...). 
+
+# BOM
 - Wemos D1 Mini or any other ESP development board
 - Attiny85
-- Li-ion or ab alternative power supply with a voltage of 3-5V
+- Li-ion or aN alternative power supply with a voltage of 3-5V
 - 3K3 Ohm resistor
 - 680 Ohm resistor
 - 410 µF capacitor
