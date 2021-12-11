@@ -8,7 +8,7 @@ Simple Door/Window contact with low quiescence current of around 5µA (according
 - 3K3 Ohm resistor
 - 680 Ohm resistor
 - 410 µF capacitor
-- Reed Switch with two terminals or alternatively a closed open reed switch.
+- Reed Switch with two terminals or alternatively a normally closed reed switch.
 - 1xP-Channel MOSFET (e.g.NDP6020P)
 
 # How it works
