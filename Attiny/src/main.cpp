@@ -1,9 +1,11 @@
 #include <Arduino.h>
 #include <avr/sleep.h>
 #include <avr/interrupt.h>
+#include <avr/wdt.h>
 
 #define ESP_POWER_PIN PB4
 #define SWITCH_INPUT_PIN PB1
+#define ESP_POWER_IN_PIN PB0
 
 void setup()
 {
@@ -11,7 +13,20 @@ void setup()
   digitalWrite(SWITCH_INPUT_PIN, INPUT_PULLUP);
   pinMode(ESP_POWER_PIN, OUTPUT);
   digitalWrite(ESP_POWER_PIN, HIGH);
+
+  pinMode(ESP_POWER_IN_PIN, INPUT_PULLUP);
 }
+
+void resetWatchDog ()
+{
+  MCUSR = 0;
+  WDTCR = bit ( WDCE ) | bit ( WDE ) | bit ( WDIF ); // allow changes, disable reset, clear existing interrupt
+  WDTCR = bit ( WDIE ) | bit ( WDP2 )| bit ( WDP1 ); // set WDIE ( Interrupt only, no Reset ) and 1 second TimeOut
+                                                     
+  wdt_reset();                            // reset WDog to parameters
+  
+} // end of resetWatchDog ()
+
 
 void sleep()
 {
@@ -43,5 +58,10 @@ void loop()
   sleep();
   digitalWrite(ESP_POWER_PIN, LOW);
   delay(500);
+  int maxDelay = 15000;
+  while (digitalRead(ESP_POWER_IN_PIN) == LOW && maxDelay > 0) {
+    delay(1);
+    maxDelay--;
+  }
   digitalWrite(ESP_POWER_PIN, HIGH);
 }

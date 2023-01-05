@@ -3,8 +3,8 @@
 #include <ESP8266HTTPClient.h>
 #include "Secrets.h"
 
-#define VCC_SWITCH D5
-#define REED_INPUT D6
+#define VCC_SWITCH 2
+#define REED_INPUT 3
 
 ADC_MODE(ADC_VCC);
 
@@ -24,7 +24,7 @@ uint32_t getWifiChannel(String ssid)
 
 void setupWiFi()
 {
-  Serial.println("WiFi Setup...");
+  // Serial.println("WiFi Setup...");
   IPAddress local_IP(192, 168, 178, 49);
   IPAddress gateway(192, 168, 178, 1);
   IPAddress subnet(255, 255, 255, 0);
@@ -45,7 +45,7 @@ void sendState(int start)
   String state = digitalRead(REED_INPUT) ? "closed" : "open";
   http.begin(callback + state + "/" + ESP.getVcc() + "/" + (millis() - start));
   http.GET();
-  Serial.println("Sent");
+  // Serial.println("Sent");
 }
 
 void setup()
@@ -53,8 +53,9 @@ void setup()
   pinMode(VCC_SWITCH, OUTPUT);
   digitalWrite(VCC_SWITCH, LOW);
   pinMode(REED_INPUT, INPUT_PULLUP);
+  // delay(5000);
   long st = millis();
-  Serial.begin(74880);
+  // Serial.begin(74880);
   
   if (WiFi.SSID() != WIFI_SSID)
   {
@@ -68,7 +69,7 @@ void setup()
   else 
   {
     // channel changed
-    Serial.println("Could not connect to WiFi ...");
+    // Serial.println("Could not connect to WiFi ...");
     setupWiFi();
     if (WiFi.waitForConnectResult(6000) == WL_CONNECTED)
     {
@@ -82,5 +83,5 @@ void setup()
 void loop()
 {
   // Set GPIO 3 to high should cut VCC anyways
-  ESP.deepSleep(10000);
+  ESP.deepSleep(10000000);
 }
